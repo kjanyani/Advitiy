@@ -45,7 +45,8 @@ for i=1:54000
             cosangle(side)=0;
         else    
         end
-        Power_side(i,side)=efficiany_solar_cell*Area(side)*Solar_Constant*cosangle(side)*light_120k(2,i);
+        %Power_side(i,side)=efficiany_solar_cell*Area(side)*Solar_Constant*cosangle(side)*light_120k(2,i);
+        Power_side(i,side)=Solar_Constant*cosangle(side)*light_120k(2,i);
         Energy=Energy+(Power_side(i,side)*interval);
         Energyplot(i)=Energy;
         totalpower(i, side)=totalpower(i, side)+Power_side(i,side);
@@ -54,3 +55,10 @@ for i=1:54000
 end
 Energy;
 fprintf('Energy_for_ideal_orbit done \n')
+%Code hereafter is just to plot power on each side
+figure
+plot(Power_side);
+title('Power vs Time for One Orbit');
+legend('Leading','Lagging','AntiSunside','Sunside','Nadir','Zenith')
+xlabel('Time (0.1s)');
+ylabel('Power(W)')
