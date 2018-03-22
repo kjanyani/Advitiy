@@ -18,7 +18,7 @@ Energyplot=zeros(1,54000);
 r_angle_v=zeros(1,54000);
 %for i=1:size(SGP_120k,2)
 sun_orbitframe = zeros(4,54000);
-Power_side=zeros(54000,6);
+Solar_Flux_side=zeros(54000,6);
 SIFake_120k=zeros(4,70001);
 for i=1:54000
     r=SGP_120k(2:4,i);
@@ -46,10 +46,9 @@ for i=1:54000
         else    
         end
         %Power_side(i,side)=efficiany_solar_cell*Area(side)*Solar_Constant*cosangle(side)*light_120k(2,i);
-        Power_side(i,side)=Solar_Constant*cosangle(side)*light_120k(2,i);
-        Energy=Energy+(Power_side(i,side)*interval);
+        Solar_Flux_side(i,side)=Solar_Constant*cosangle(side)*light_120k(2,i);
+        Energy=Energy+(Solar_Flux_side(i,side)*interval);
         Energyplot(i)=Energy;
-        totalpower(i, side)=totalpower(i, side)+Power_side(i,side);
     end 
     
 end
@@ -57,8 +56,9 @@ Energy;
 fprintf('Energy_for_ideal_orbit done \n')
 %Code hereafter is just to plot power on each side
 figure
-plot(Power_side);
-title('Power vs Time for One Orbit');
+plot(Solar_Flux_side);
+title('Solar Flux vs Time for One Orbit');
 legend('Leading','Lagging','AntiSunside','Sunside','Nadir','Zenith')
 xlabel('Time (0.1s)');
-ylabel('Power(W)')
+ylabel('Solar Flux (S.I. Units)')
+%Result_Table=['Leading' char(mean(Solar_Flux_side(:,1))) ; 'Lagging', mean(Solar_Flux_side(:,1)) ]
